@@ -19,6 +19,7 @@ media/
 # Compiled source #
 ###################
 *.exe
+chromedriver*
 
 # OS generated files #
 ######################
