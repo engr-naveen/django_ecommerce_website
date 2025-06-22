@@ -14,7 +14,7 @@ def test_cerate_admin_user(cerate_admin_user):
 def test_dashboad_admin_login(live_server,cerate_admin_user,chrome_browser_instance):
     
     browser = chrome_browser_instance
-    browser.get(("%s%s" % (live_server.url,"/admin/login")))
+    browser.get(("%s%s" % (live_server.url,"/admin")))
     
     user_name = browser.find_element(By.NAME,"username")
     user_password = browser.find_element(By.NAME,"password")
