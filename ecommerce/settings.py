@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     # Local applications
     "ecommerce.dashboard",
     "ecommerce.inventory",
+    "ecommerce.demo",
     # External applications
     "mptt",
 ]
