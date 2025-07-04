@@ -223,3 +223,89 @@ def test_inventory_db_brand_uniqueness_integrity(db, brand_factory):
     brand_factory.create(name="not_unique")
     with pytest.raises(IntegrityError):
         brand_factory.create(name="not_unique")
+
+
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "id, product_inventory, image, alt_text, is_feature, created_at, updated_at",
+    [
+        (
+            1,
+            1,
+            "images/default.png",
+            "a default image solid color",
+            1,
+            "2021-09-04 22:14:18",
+            "2021-09-04 22:14:18",
+        ),
+        (
+            8616,
+            8616,
+            "images/default.png",
+            "a default image solid color",
+            1,
+            "2021-09-04 22:14:18",
+            "2021-09-04 22:14:18",
+        ),
+    ],
+)
+def test_inventory_db_media_dataset(
+    db,
+    db_fixture_setup,
+    id,
+    product_inventory,
+    image,
+    alt_text,
+    is_feature,
+    created_at,
+    updated_at,
+):
+    result = models.Media.objects.get(id=id)
+    result_created_at = result.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    result_updated_at = result.updated_at.strftime("%Y-%m-%d %H:%M:%S")
+    assert result.product_inventory.id == product_inventory
+    assert result.image == image
+    assert result.alt_text == alt_text
+    assert result.is_feature == is_feature
+    assert result_created_at == created_at
+    assert result_updated_at == updated_at
+
+
+def test_inventory_db_media_insert_data(db, media_factory):
+    new_media = media_factory.create(product_inventory__sku="123456789")
+    assert new_media.product_inventory.sku == "123456789"
+    assert new_media.image == "images/default.png"
+    assert new_media.alt_text == "a default image solid color"
+    assert new_media.is_feature == 1
+
+
+@pytest.mark.dbfixture
+@pytest.mark.parametrize(
+    "id, product_inventory, last_checked, units, units_sold",
+    [
+        (1, 1, "2021-09-04 22:14:18", 135, 0),
+        (8616, 8616, "2021-09-04 22:14:18", 100, 0),
+    ],
+)
+def test_inventory_db_stock_dataset(
+    db,
+    db_fixture_setup,
+    id,
+    product_inventory,
+    last_checked,
+    units,
+    units_sold,
+):
+    result = models.Stock.objects.get(id=id)
+    result_last_checked = result.last_checked.strftime("%Y-%m-%d %H:%M:%S")
+    assert result.product_inventory.id == product_inventory
+    assert result_last_checked == last_checked
+    assert result.units == units
+    assert result.units_sold == units_sold
+
+
+def test_inventory_db_stock_insert_data(db, stock_factory):
+    new_stock = stock_factory.create(product_inventory__sku="123456789")
+    assert new_stock.product_inventory.sku == "123456789"
+    assert new_stock.units == 2
+    assert new_stock.units_sold == 100
