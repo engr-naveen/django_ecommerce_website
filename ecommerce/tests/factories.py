@@ -93,6 +93,45 @@ class StockFactory(factory.django.DjangoModelFactory):
     units_sold = 100
 
 
+class ProductAttributeFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ProductAttribute
+
+    name = factory.Sequence(lambda n: "attribute_name_%d" % n)
+    description = factory.Sequence(lambda n: "description_%d" % n)
+
+
+class ProductAttributeValueFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ProductAttributeValue
+
+    product_attribute = factory.SubFactory(ProductAttributeFactory)
+    attribute_value = fake.lexify(text="attribute_value_??????")
+
+
+class ProductAttributeValuesFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = models.ProductAttributeValues
+
+    attributevalues = factory.SubFactory(ProductAttributeValueFactory)
+    productinventory = factory.SubFactory(ProductInventoryFactory)
+
+
+class ProductWithAttributeValuesFactory(ProductInventoryFactory):
+    class Meta:
+        skip_postgeneration_save = True
+
+    attributevalues1 = factory.RelatedFactory(
+        ProductAttributeValuesFactory,
+        factory_related_name="productinventory",
+    )
+
+    attributevalues2 = factory.RelatedFactory(
+        ProductAttributeValuesFactory,
+        factory_related_name="productinventory",
+    )
+
+
 # Makes it avaliable
 register(CategoryFactory)
 register(ProductFactory)
@@ -101,3 +140,6 @@ register(BrandFactory)
 register(ProductInventoryFactory)
 register(MediaFactory)
 register(StockFactory)
+register(ProductAttributeFactory)
+register(ProductAttributeValueFactory)
+register(ProductWithAttributeValuesFactory)
