@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content-body %}
+<h1>Products</h1>
+
+
+    {% for x in data%}
+    <ul>
+        {% comment %} <li>{{x.category__name}}</li> {% endcomment %}
+        <li>Name : {{x.name}} 
+             [<a href="{% url 'demo:product_detail' slug=x.slug %}">view</a>]
+        </li>
+        <li>Price : $ {{x.product__store_price}}</li>
+        
+    </ul>
+    {%endfor%}
+
+{% endblock content-body %}
+
+
+

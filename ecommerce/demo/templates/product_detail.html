@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content-body %}
+
+<h1>Product Details</h1>
+
+    {% for x in data %}
+    <ul>
+        <li> {{x.product__name}} </li>
+        <li> {{x.sku}} </li>
+        <li> {{x.product__category__name}} </li>
+        <li> {{x.product_inventory__units}} </li>
+        {% comment %} <li> {{x.name}} </li> {% endcomment %}
+    </ul>
+    {% endfor %}
+
+{% endblock content-body %}
