@@ -5,13 +5,26 @@
 <h1>Product Details</h1>
 
     {% for x in data %}
-    <ul>
-        <li> {{x.product__name}} </li>
-        <li> {{x.sku}} </li>
-        <li> {{x.product__category__name}} </li>
-        <li> {{x.product_inventory__units}} </li>
-        {% comment %} <li> {{x.name}} </li> {% endcomment %}
-    </ul>
+        <ul>
+            <li> {{x.product__name}} </li>
+            <li> {{x.sku}} </li>
+            <li> {{x.product__category__name}} </li>
+            <li> {{x.product_inventory__units}} </li>
+            {% comment %} <li> {{x.name}} </li> {% endcomment %}
+        </ul>
     {% endfor %}
-
+    
+    <h3> attributes : </h3>
+    <ul>
+    {% for x in attribute_names %}
+    
+       <h5> {{x.product_attribute__name}}</h5>
+        {% for y in attribute_pair %}
+            {% if  y.attribute_values__product_attribute__name == x.product_attribute__name%}
+               <li> {{y.attribute_values__attribute_value}}</li>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+    </ul>
+    
 {% endblock content-body %}

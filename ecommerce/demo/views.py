@@ -38,7 +38,7 @@ def product_detail(request, slug):
     if request.GET:
         for value in request.GET.values():
             filter_arguments.append(value)
-    print(len(filter_arguments))
+    # print(len(filter_arguments))
 
     if len(filter_arguments) == 0:
         data = (
@@ -75,6 +75,36 @@ def product_detail(request, slug):
             )
         )
 
+    attribute_names = (
+        # ProductTypeAttribute --> ProductInventory --> Product
+        models.ProductTypeAttribute.objects.filter(
+            product_type__product_type__product__slug=slug
+        )
+        # .distinct()
+        .values("product_attribute__name").distinct()
+        # s.values("product_attribute__name")
+    )
+
+    attribute_pair = (
+        models.ProductInventory.objects.filter(product__slug=slug)
+        .distinct()
+        .values(
+            "attribute_values__product_attribute__name",
+            "attribute_values__attribute_value",
+        )
+    )
+
+    # product_type_attribute-->product_type-->product_inventort-->product
+    print("slug : ", slug)
+    print("attribute_names : ", attribute_names)
     # print(data)
 
-    return render(request, "product_detail.html", {"data": data})
+    return render(
+        request,
+        "product_detail.html",
+        {
+            "data": data,
+            "attribute_names": attribute_names,
+            "attribute_pair": attribute_pair,
+        },
+    )
