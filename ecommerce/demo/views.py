@@ -40,12 +40,12 @@ def product_detail(request, slug):
             filter_arguments.append(value)
     # print(len(filter_arguments))
 
+    from django.contrib.postgres.aggregates import ArrayAgg
+
     if len(filter_arguments) == 0:
         data = (
-            models.ProductInventory.objects.filter(product__slug=slug).filter(
-                is_default=True
-            )
-            # .filter(attribute_values__attribute_value__in=filter_arguments)
+            models.ProductInventory.objects.filter(product__slug=slug)
+            .filter(is_default=True)
             .values(
                 "id",
                 "sku",
@@ -54,6 +54,8 @@ def product_detail(request, slug):
                 "store_price",
                 "product_inventory__units",
             )
+            .annotate(field_a=ArrayAgg("attribute_values__attribute_value"))
+            .get()
         )
     else:
 
@@ -73,6 +75,8 @@ def product_detail(request, slug):
                 "store_price",
                 "product_inventory__units",
             )
+            .annotate(field_a=ArrayAgg("attribute_values__attribute_value"))
+            .get()
         )
 
     attribute_names = (
