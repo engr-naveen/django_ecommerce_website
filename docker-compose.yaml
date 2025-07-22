@@ -1,7 +1,7 @@
 version: "3.8"
 
-services: 
-  pgdb: 
+services:
+  pgdb:
     container_name: pgdb_django_ecommerce
     image: postgres
     restart: always
@@ -11,14 +11,21 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    # pgadmin:
+    #   container_name: pgadmin4
+    #   image: dpage/pgadmin4
+    #   restart: always
 
-  # pgadmin:
-  #   container_name: pgadmin4
-  #   image: dpage/pgadmin4
-  #   restart: always
+    #   environment:
+    #     PGADMIN_DEFAULT_EMAIL: a@a.com
+    #     PGADMIN_DEFAULT_PASSWORD: password
+    #   ports:
+    #     - "5050:80"
 
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: a@a.com
-  #     PGADMIN_DEFAULT_PASSWORD: password
-  #   ports:
-  #     - "5050:80"
+  esearch:
+    container_name: search
+    image: elasticsearch:7.17.28
+    environment:
+      - discovery.type=single-node
+    ports:
+      - 9200:9200

@@ -74,7 +74,7 @@
 
          $('[id^=target]').click(function () {
             const value = this.getAttribute('value');
-            d[this.getAttribute('data-attribute')] = this.getAttribute('value')
+            d[this.getAttribute('dta-attribute')] = this.getAttribute('value')
             const querystring = buildUrlWithParams(d)
             const url = window.location.href.split('?')[0]
             window.location.href = url + "?" + querystring;

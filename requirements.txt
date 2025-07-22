@@ -7,8 +7,11 @@ charset-normalizer==3.4.0
 click==8.2.1
 colorama==0.4.6
 Django==5.1.2
+django-elasticsearch-dsl==8.2
 django-js-asset==3.1.2
 django-mptt==0.17.0
+elastic-transport==8.17.1
+elasticsearch==8.18.1
 factory_boy==3.3.1
 Faker==30.6.0
 h11==0.14.0
@@ -24,6 +27,8 @@ pathspec==0.12.1
 pillow==11.3.0
 platformdirs==4.3.8
 pluggy==1.5.0
+psycopg==3.2.9
+psycopg-binary==3.2.9
 pycparser==2.22
 PySocks==1.7.1
 pytest==8.3.3
