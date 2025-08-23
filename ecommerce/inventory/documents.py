@@ -44,3 +44,5 @@ class ProductInventoryDocument(Document):
 #             }
 #     }
 # }'
+
+# curl -X GET "localhost:9200/productinventory/_doc/1?pretty"
